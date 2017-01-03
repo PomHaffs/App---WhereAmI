@@ -11,6 +11,8 @@ import UIKit
 //global varible
 var places = [Dictionary<String, String>()]
 
+var activePlace = -1
+
 class PlacesViewController: UITableViewController {
 
     @IBOutlet var table: UITableView!
@@ -18,13 +20,17 @@ class PlacesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         if places.count == 1 && places[0].count == 0 {
             
             places.remove(at: 0)
             places.append(["name":"Taj Mahal", "lat":"27.175277", "long":"78.04128"])
         }
-
-            table.reloadData()
+        
+        activePlace = -1
+        table.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +67,8 @@ class PlacesViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        activePlace = indexPath.row
         
         performSegue(withIdentifier: "toMap", sender: nil)
         
